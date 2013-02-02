@@ -74,7 +74,9 @@ def parsefile(filepath):
             raise
     
     # Class open bracket
-    class_bracket = '{'
+    class_open_bracket = '{'
+    class_close_bracket = '}'
+    php_tag = '<?php'
     
     #Open out files (and create the out file)
     in_file = open(filepath, 'r')
@@ -83,12 +85,21 @@ def parsefile(filepath):
     for line in in_file:
 	    if re.match("^(?!.*[\*,/,',\"]).*class .*$", line):
 			print line,
-			if class_bracket not in line:
-			    line = line+' '+class_bracket
 			
+			#Check if we need to add the php tag, and start the class..
+			if class_open_bracket not in line:
+			    line = ''.join([line,' ',class_open_bracket])
+			
+			if php_tag not in line:
+			    line = ''.join([php_tag,' ',line])
+			    
 			out_file.write(line)
-			
+			break
 
+
+    #Close the class
+    out_file.write(class_close_bracket)
+    
     in_file.close()
     out_file.close()
 
