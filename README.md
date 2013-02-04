@@ -25,3 +25,4 @@ Now you will have code-complete in you custom codeigiter classes.
 
 #Workflow#
 You must re build the code complete files every time you reference a new model, library or helper in one of you classes.
+However, it only takes a second to run, and saves you a lot of time in the long run.
