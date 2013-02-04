@@ -24,7 +24,8 @@ If you want to add this to an existing repo, consider using a git-submodule.
 Now you will have code-complete in you custom codeigiter classes.
 
 #Workflow#
-You must re build the code complete files every time you reference a new model, library or helper in one of you classes.
+I would add a copy of codecomplete into each codeigniter project, at the same level as you www directory.
+Each time you add a new reference a new model, library or helper in one of you classes you must run build the codecomplete files.
 However, it only takes a second to run, and saves you a lot of time in the long run.
 
 #Disclaimer#
