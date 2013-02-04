@@ -6,7 +6,7 @@ Generates a reflection of a CodeIgniter project, and writes comments defining pr
 ##Format##
 The script makes the assumption that your class properties follow the standard CI naming conventions.  For example.. 
 ```php
-$this–>load–>model('my_model') ;
+$this->load->model('my_model') ;
 ```
 
 Will create a property called *$my_model* of type *My_model*
