@@ -9,7 +9,9 @@ Generates a reflection of a CodeIgniter project, and writes comments defining pr
 ```bash
 python codecomplete/build.py -c ../www
 ```
-Where -c is the path to you codeigniter site relative to the CI_CodeComplete directory.
+Where codecomplete is the codecomplete repo and -c is the path to you codeigniter site relative to the codecomplete directory.
+
+If you want to add this to an existing repo, consider using a git-submodule.
 
 
 2) Next add the directory to you Eclipse PHP Build path.
