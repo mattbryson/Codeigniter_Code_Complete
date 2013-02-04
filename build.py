@@ -11,6 +11,8 @@ from stat import *
 #Codeigniter site location (set as -c arg when running script)
 ci_dir = ''
 
+#Auto loaded classes that will be included in every class
+auto_loads = ''
 
 #This dir location..
 SELF_DIR = os.path.abspath(os.path.dirname(sys._getframe(0).f_code.co_filename))
@@ -18,13 +20,15 @@ SELF_DIR = os.path.abspath(os.path.dirname(sys._getframe(0).f_code.co_filename))
 #CI directories to scan for classes
 CI_DIRS = ['models','controllers','libraries','helpers','core']
 
+
 #Define our regexs / patterns   
 CLASS_OPEN_BRACKET = '{'
 CLASS_CLOSE_BRACKET = '}'
 PHP_TAG = '<?php'
 CLASS_PATTERN = "^(?!.*[\*,/,',\"]).*class .*$"
-LOAD_PATTERN = r"(?:load->model|library)(.*?\))"
-
+LOAD_PATTERN = r"(?:load[\s]*?->[\s]*?model|library)(.*?\))"
+AUTOLOAD_PATTERN = r"(?:(?:[^\|[\s]*?]|^)\$autoload\['(?:model|libraries)'\][\s]*?=[\s]*?array[\s]*?)(.*?\))"
+CLASS_LIST_PATTERN = '\"(.+?)\"|\'(.+?)\''
 COMMENT_PATTERN = """/**
  * @var {class}
  */            
@@ -33,10 +37,39 @@ var ${var};
 
 
 
+def findAutoLoad(top):
+    auto_loads_str=''
+    filepath = os.path.join(top, 'config', 'autoload.php')
+    if (os.path.exists( filepath )):
+        #Open autoload and get loads of models and libraries
+        in_file = open(filepath, 'r+')
+    
+        with in_file as f:
+            data = mmap.mmap(f.fileno(), 0)
+        
+            #Get the Class definition
+            it1 = re.finditer(AUTOLOAD_PATTERN, data, re.M | re.I | re.S)
+            for mo1 in it1:
+                it2 = re.finditer(CLASS_LIST_PATTERN,  mo1.group(1))
+                for mo2 in it2:
+                    #write the property out
+                    auto_loads_str = ''.join([auto_loads_str, '\n', getComment(mo2.group(0))])
+    return auto_loads_str            
+               
+            
+
 # Finds the models and controllers dirs in an MVC triad location
 def findClasses (top, callback):
-   for dir in CI_DIRS:
+    #First get any autoloaded classes, as these will need to be added to
+    #each of our individual classes
+    global auto_loads
+    auto_loads = ''.join( [auto_loads, findAutoLoad(top)] )   
+    
+    #Check for php classes in the CI folders we are scanning.
+    for dir in CI_DIRS:
         walktree(os.path.join( top, dir), callback)
+
+   
 
 
 
@@ -80,27 +113,13 @@ def walktree(top, callback):
 def parseFile(filepath):
     print 'Analysing', filepath
     
-    #Resolve path to new code-complete file
-    cc_filepath = filepath.replace(ci_dir, SELF_DIR)
-
-    #Get the dir path for the new file
-    dirs = os.path.split(cc_filepath)[0]
-    #Make dir structure
-    try: os.makedirs(dirs, 0777)
-    except OSError as err:
-        # Reraise the error unless it's about an already existing directory 
-        if err.errno != errno.EEXIST or not os.path.isdir(dirs): 
-            raise
-            die("Could not mk dirs")
-    
-    
     #Open out files (and create the out file)
     in_file = open(filepath, 'r+')
-    out_file = open(cc_filepath, 'w+')
     
     file_header = ''
     file_footer = '\n'+CLASS_CLOSE_BRACKET
     file_body = ''
+    
     with in_file as f:
         data = mmap.mmap(f.fileno(), 0)
         
@@ -119,28 +138,59 @@ def parseFile(filepath):
         #Models, Libraries etc
         it1 = re.finditer(LOAD_PATTERN, data, re.M | re.I | re.S)
         for mo1 in it1:
-            it2 = re.finditer('\"(.+?)\"|\'(.+?)\'',  mo1.group(1))
+            it2 = re.finditer(CLASS_LIST_PATTERN,  mo1.group(1))
             for mo2 in it2:
-                #clean the quotes out - cant get the regex above to do this for some reason.
-                classpath =  mo2.group(0).replace('\"','').replace('\'','')
-                #Split on path delimiters, and take the last element, the class name
-                classpath = classpath.split('/')
-                classname = classpath[-1]
-                
                 #write the property out
-                file_body = ''.join([file_body, '\n', getComment(classname)])
-
-    #write out the new code complete class
-    out_file.write(file_header)
-    out_file.write(file_body)
-    out_file.write(file_footer)
+                file_body = ''.join([file_body, '\n', getComment(mo2.group(0))])
+    
+    global auto_loads  
+    if (file_body != '' or auto_loads != ''):
+        out_file = cloneFile(filepath)
+        #write out the new code complete class
+        out_file.write(file_header)
+        out_file.write("\n//Class fields")
+        out_file.write(file_body)
+        if( auto_loads != '' ):
+            out_file.write("\n//Auto loaded fields")
+            out_file.write(auto_loads)
+        out_file.write(file_footer)
+        out_file.close()
     
     in_file.close()
-    out_file.close()
+    
+
+    
+    
+def cloneFile(filepath):
+    #Resolve path to new code-complete file
+    cc_filepath = filepath.replace(ci_dir, SELF_DIR)
+    makeDir(cc_filepath)
+    print 'Creating code complete file ', filepath
+    out_file = open(cc_filepath, 'w+')
+    return out_file
+        
+
+def makeDir(path):
+    #Get the dir path for the new file
+    dirs = os.path.split(path)[0]
+    #Make dir structure
+    try: os.makedirs(dirs, 0777)
+    except OSError as err:
+        # Reraise the error unless it's about an already existing directory 
+        if err.errno != errno.EEXIST or not os.path.isdir(dirs): 
+            raise
+            die("Could not mk dirs")
+    
 
 
-
-def getComment(classname):
+def getComment(classpath):
+    
+    #clean the quotes out - cant get the regex above to do this for some reason.
+    classpath =  classpath.replace('\"','').replace('\'','')
+    #Split on path delimiters, and take the last element, the class name
+    classpath = classpath.split('/')
+    classname = classpath[-1]
+                
     comment = COMMENT_PATTERN.replace("{class}", classname.capitalize())
     comment = comment.replace("{var}", classname)
     return comment
@@ -165,9 +215,11 @@ def main():
     	shutil.rmtree( generated_files )
     
     
+    
+    #Also check for autoload.php in the config...
     findClasses(applicaiton_dir, parseFile)   
     findModules(modules_dir, parseFile)
-   
+    
     
 # log errors    
 def die(msg):
