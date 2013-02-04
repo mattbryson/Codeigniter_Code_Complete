@@ -35,17 +35,26 @@ COMMENT_PATTERN = """/**
 var ${var};    
 """
 
+files_created = 0
 
-INFO = 0    
+NORM = 0    
 WARN = 1
-    
+INFO = 2
+TITLE = 3
+
 def msg( str, type=0 ):
-    if(type==INFO):
+    if(type==NORM):
         print  '\033[92m', str, '\033[0m'   
     
     elif( type == WARN ):
         print  '\033[93m', str, '\033[0m'    
 
+    elif ( type == INFO ):
+        print  '\033[95m', str, '\033[0m'
+        
+    elif ( type == TITLE ):
+        print  '\033[1m', str, '\033[0m'       
+        
     elif( type == FAIL ):
         print  '\033[91m', str, '\033[0m'  
         sys.exit(1)	
@@ -69,6 +78,7 @@ def findAutoLoad(top):
                 for mo2 in it2:
                     #write the property out
                     auto_loads_str = ''.join([auto_loads_str, '\n', getComment(mo2.group(0))])
+    
     return auto_loads_str            
                
             
@@ -99,7 +109,7 @@ def findModules(top, callback):
                 findClasses(pathname, callback)
             else:
                 # Unknown file type, print a message
-                msg('Ignoring ' + pathname, WARN )
+                msg('Ignoring: ' + pathname, WARN )
 
 
 # Recursively walk tree looking for php classes
@@ -118,15 +128,15 @@ def walktree(top, callback):
                 if(pathname.endswith('.php')):
                     callback(pathname)
                 else:
-                    msg('Ignoring ' + pathname, WARN )
+                    msg('Ignoring: ' + pathname, WARN )
             else:
                 # Unknown file type, print a message
-                msg('Ignoring ' + pathname, WARN )
+                msg('Ignoring: ' + pathname, WARN )
 
 
 # Parse a php class, and make a code hint copy of it
 def parseFile(filepath):
-    msg('Analysing ' + filepath )
+   # msg('Analysing ' + filepath )
     
     #Open out files (and create the out file)
     in_file = open(filepath, 'r+')
@@ -180,8 +190,10 @@ def cloneFile(filepath):
     #Resolve path to new code-complete file
     cc_filepath = filepath.replace(ci_dir, SELF_DIR)
     makeDir(cc_filepath)
-    msg( 'Creating code complete file ' + filepath )
+    msg( 'Creating: ' + filepath )
     out_file = open(cc_filepath, 'w+')
+    global files_created
+    files_created+=1
     return out_file
         
 
@@ -223,19 +235,30 @@ def main():
     system_dir = os.path.abspath(os.path.join(SELF_DIR, args.codeigniter, 'system'))
     applicaiton_dir = os.path.abspath(os.path.join(SELF_DIR, args.codeigniter, 'application'))
     modules_dir = os.path.abspath(os.path.join(SELF_DIR, args.codeigniter, 'application', 'modules'))
-
+    
+    msg('')
+    msg('Codeigniter Codecomplete generator', TITLE)
+    msg('CI site : ' + ci_dir, INFO)
+    
+        
     generated_files = os.path.join(SELF_DIR, 'application')
     #Clean old generated files
     if( os.path.exists( generated_files )):
+        msg('Removing existing generated files...', INFO)
     	shutil.rmtree( generated_files )
     
-    
+    msg('Creating codecomplete files at ' + generated_files, INFO)
+    msg('--------------------')
     
     #Also check for autoload.php in the config...
     findClasses(applicaiton_dir, parseFile)   
     findModules(modules_dir, parseFile)
     
-
+    msg('')
+    msg('--------------------')
+    msg(''.join(["Finished: " ,`files_created`," files created "]))
+    msg("Please unsure you have the following path added to your PHP Build path:", TITLE)
+    msg(SELF_DIR, INFO)
 	
 	
 # go	

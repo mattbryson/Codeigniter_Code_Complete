@@ -1,7 +1,10 @@
 Codeigniter Code-Complete for custom classes
 ============================================
 
+Creates autocomplete comments for user classes as well as the CodeIgniter core.
+
 Generates a reflection of a CodeIgniter project, and writes comments defining property types to enable auto code completion in IDEs such as eclipse.
+The code is class specific, so only the models, controllers referenced in your class will be available in the code complete.
 
 ##Format##
 The script makes the assumption that your class properties follow the standard CI naming conventions.  For example.. 
