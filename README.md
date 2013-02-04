@@ -60,8 +60,8 @@ Now you will have code-complete in you custom Codeigniter classes.
 
 #Workflow#
 Add a copy of `codecomplete` into each codeigniter project you work on, at the same level as your `www` directory.
-Each time you add a new reference a new model, library or helper in one of you classes you must re build the `codecomplete` files.
-It only takes a second to run, and saves you a lot of time in the long run. You will need to save the class to get Eclipse to run check the class paths.
+Each time you add a new reference to a model, library or helper in one of you classes you must re build the `codecomplete` files.
+It only takes a second to run, and saves you a lot of time in the long run. You will need to save the class to get Eclipse to re check the class paths.
 
 #Disclaimer#
 **This script has been tested however, USE AT YOUR OWN RISK.**
