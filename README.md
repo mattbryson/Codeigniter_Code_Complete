@@ -4,7 +4,7 @@ Codeigniter Code-Complete for custom classes
 Creates autocomplete comments for user classes as well as the CodeIgniter core without modifying your code.
 
 Generates a reflection of a CodeIgniter project, and writes comments defining property types to enable auto code completion in IDEs such as eclipse.
-The code is class specific, so only the models, controllers referenced in your class will be available in the code complete.
+The code is class specific, so only the models and libraries referenced in your class will be available in the code complete.
 
 ##Format##
 The script makes the assumption that your class properties follow the standard CI naming conventions.  For example.. 
@@ -12,7 +12,7 @@ The script makes the assumption that your class properties follow the standard C
 $this->load->model('my_model') ;
 ```
 
-Will create a property called *$my_model* of type *My_model*
+THis will create a property called *$my_model* of type *My_model*
 
 The script will generate auto complete files for all your models, controllers,  libraries,  helpers and custom core files. 
 
@@ -36,9 +36,9 @@ $this->load->model('my_package/my_model') ;
 1) Clone the repo to you computer, and then run the following command line:
 
 ```bash
-python Codeigniter_Code_Complete/build.py -c ../www
+python CI_CodeComplete/build.py -c ../www
 ```
-Where Codeigniter_Code_Complete is the Codeigniter_Code_Complete repo and -c is the path to you codeigniter site relative to the Codeigniter_Code_Complete directory.
+Where CI_CodeComplete is the CI_CodeComplete repo and -c is the path to you codeigniter site relative to the CI_CodeComplete directory.
 
 If you want to add this to an existing repo, consider using a git-submodule.
 
@@ -50,12 +50,12 @@ If you want to add this to an existing repo, consider using a git-submodule.
 * Click the 'add' button to the right and browse to the CI_CodeComplete directory.
 
 
-Now you will have code-complete in you custom codeigiter classes.
+Now you will have code-complete in you custom Codeigniter classes.
 
 #Workflow#
-I would add a copy of Codeigniter_Code_Complete into each codeigniter project, at the same level as you www directory.
-Each time you add a new reference a new model, library or helper in one of you classes you must run build the Codeigniter_Code_Complete files.
-However, it only takes a second to run, and saves you a lot of time in the long run.
+Add a copy of CI_CodeComplete into each codeigniter project you work on, at the same level as you www directory.
+Each time you add a new reference a new model, library or helper in one of you classes you must re build the CI_CodeComplete files.
+It only takes a second to run, and saves you a lot of time in the long run.
 
 #Disclaimer#
 **This script has been tested however, USE AT YOUR OWN RISK.**
