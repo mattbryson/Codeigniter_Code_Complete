@@ -19,8 +19,8 @@ It has been tested with the following layouts
 
 ```php
 $this->load->model('my_model') ;
-
-$this->load->model( 'my_model' ) ;
+$this->load->model('my_model') ;
+$this -> load -> model ( 'my_model' ) ;
 $this->load->model(array('my_model', 'my_other_model') ) ;
 $this->load->model(
 array(
