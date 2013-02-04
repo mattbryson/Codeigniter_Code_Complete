@@ -7,9 +7,9 @@ Generates a reflection of a CodeIgniter project, and writes comments defining pr
 1) Clone the repo to you computer, and then run the following command line:
 
 ```bash
-python codecomplete/build.py -c ../www
+python Codeigniter_Code_Complete/build.py -c ../www
 ```
-Where codecomplete is the codecomplete repo and -c is the path to you codeigniter site relative to the codecomplete directory.
+Where Codeigniter_Code_Complete is the Codeigniter_Code_Complete repo and -c is the path to you codeigniter site relative to the Codeigniter_Code_Complete directory.
 
 If you want to add this to an existing repo, consider using a git-submodule.
 
@@ -24,8 +24,8 @@ If you want to add this to an existing repo, consider using a git-submodule.
 Now you will have code-complete in you custom codeigiter classes.
 
 #Workflow#
-I would add a copy of codecomplete into each codeigniter project, at the same level as you www directory.
-Each time you add a new reference a new model, library or helper in one of you classes you must run build the codecomplete files.
+I would add a copy of Codeigniter_Code_Complete into each codeigniter project, at the same level as you www directory.
+Each time you add a new reference a new model, library or helper in one of you classes you must run build the Codeigniter_Code_Complete files.
 However, it only takes a second to run, and saves you a lot of time in the long run.
 
 #Disclaimer#
