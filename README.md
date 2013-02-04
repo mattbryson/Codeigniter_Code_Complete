@@ -33,7 +33,7 @@ array(
 $this->load->model('my_package/my_model') ;
 ```
 ##Installation##
-This assumes you have a git repo for your ci project that contains a `www` directory.  
+This assumes you have a git repo for your codeigniter project that contains a `www` directory.  
 
 1) Clone the codecomplete repo into your project, the best approach is to place it at the same level 
 as you CI site, so use `git submodule` if you are already in a git repo:
@@ -46,7 +46,7 @@ git submodule add https://github.com/mattbryson/Codeigniter_Code_Complete.git co
 ```bash
 python codecomplete/build.py -c ../www
 ```
-Where `codecomplete` is the CI_CodeComplete repo and `-c` is the path to you codeigniter site relative to the `codecomplete` directory.
+Where `codecomplete` is the this repo and `-c` is the path to you codeigniter site relative to the `codecomplete` directory.
 
 
 3) Next add the directory to you Eclipse PHP Build path.
