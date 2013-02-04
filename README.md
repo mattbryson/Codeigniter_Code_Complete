@@ -41,6 +41,8 @@ as you CI site, so use `git submodule` if you are already in a git repo:
 ```bash
 git submodule add https://github.com/mattbryson/Codeigniter_Code_Complete.git codecomplete
 ````
+(Removing submodules can be a bit tricky, so you could just cheat and have a git repo nested in your current git repo)
+
 2) Then run the script:
 
 ```bash
