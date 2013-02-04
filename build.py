@@ -36,6 +36,21 @@ var ${var};
 """
 
 
+INFO = 0    
+WARN = 1
+    
+def msg( str, type=0 ):
+    if(type==INFO):
+        print  '\033[92m', str, '\033[0m'   
+    
+    elif( type == WARN ):
+        print  '\033[93m', str, '\033[0m'    
+
+    elif( type == FAIL ):
+        print  '\033[91m', str, '\033[0m'  
+        sys.exit(1)	
+        
+          
 
 def findAutoLoad(top):
     auto_loads_str=''
@@ -84,7 +99,7 @@ def findModules(top, callback):
                 findClasses(pathname, callback)
             else:
                 # Unknown file type, print a message
-                print 'Ignoring ', pathname 
+                msg('Ignoring ' + pathname, WARN )
 
 
 # Recursively walk tree looking for php classes
@@ -103,15 +118,15 @@ def walktree(top, callback):
                 if(pathname.endswith('.php')):
                     callback(pathname)
                 else:
-                    print 'Ignoring', pathname 
+                    msg('Ignoring ' + pathname, WARN )
             else:
                 # Unknown file type, print a message
-                print 'Ignoring', pathname
+                msg('Ignoring ' + pathname, WARN )
 
 
 # Parse a php class, and make a code hint copy of it
 def parseFile(filepath):
-    print 'Analysing', filepath
+    msg('Analysing ' + filepath )
     
     #Open out files (and create the out file)
     in_file = open(filepath, 'r+')
@@ -165,7 +180,7 @@ def cloneFile(filepath):
     #Resolve path to new code-complete file
     cc_filepath = filepath.replace(ci_dir, SELF_DIR)
     makeDir(cc_filepath)
-    print 'Creating code complete file ', filepath
+    msg( 'Creating code complete file ' + filepath )
     out_file = open(cc_filepath, 'w+')
     return out_file
         
@@ -179,7 +194,7 @@ def makeDir(path):
         # Reraise the error unless it's about an already existing directory 
         if err.errno != errno.EEXIST or not os.path.isdir(dirs): 
             raise
-            die("Could not mk dirs")
+            msg("Could not mk dirs", FAIL)
     
 
 
@@ -220,11 +235,7 @@ def main():
     findClasses(applicaiton_dir, parseFile)   
     findModules(modules_dir, parseFile)
     
-    
-# log errors    
-def die(msg):
-    print msg
-    sys.exit(1)	
+
 	
 	
 # go	
