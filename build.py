@@ -37,6 +37,7 @@ var ${var};
 
 files_created = 0
 
+FAIL = -1
 NORM = 0    
 WARN = 1
 INFO = 2
@@ -177,7 +178,16 @@ def parseFile(filepath):
         out_file.write(file_body)
         if( auto_loads != '' ):
             out_file.write("\n//Auto loaded fields")
-            out_file.write(auto_loads)
+            class_file = os.path.split(filepath)[-1]
+            class_name = class_file.replace('.php','')
+            current_auto_load = auto_loads
+            #If the current class is in the auto load, remove it so we dont get cyclical reference
+            if( class_name in current_auto_load ):
+                current_auto_load = current_auto_load.replace("@var " + class_name, '', re.I)
+                current_auto_load = current_auto_load.replace("var $" + class_name.lower() + ";", '', re.I)
+            
+            out_file.write(current_auto_load)
+        
         out_file.write(file_footer)
         out_file.close()
     
@@ -190,7 +200,7 @@ def cloneFile(filepath):
     #Resolve path to new code-complete file
     cc_filepath = filepath.replace(ci_dir, SELF_DIR)
     makeDir(cc_filepath)
-    msg( 'Creating: ' + filepath )
+    msg( 'Creating: ' + cc_filepath )
     out_file = open(cc_filepath, 'w+')
     global files_created
     files_created+=1
