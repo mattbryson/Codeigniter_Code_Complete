@@ -7,7 +7,7 @@ Generates a reflection of a CodeIgniter project, and writes comments defining pr
 1) Clone the repo to you computer, and then run the following command line:
 
 ```bash
-python assets/codecomplete/build.py -c ../../www
+python codecomplete/build.py -c ../www
 ```
 Where -c is the path to you codeigniter site relative to the CI_CodeComplete directory.
 
