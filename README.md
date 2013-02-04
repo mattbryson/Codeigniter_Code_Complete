@@ -33,29 +33,33 @@ array(
 $this->load->model('my_package/my_model') ;
 ```
 ##Installation##
-1) Clone the repo to you computer, and then run the following command line:
+1) Clone the repo into your project, the best approach is to place it at the same level 
+as you CI site, so use `git submodule` if you are already in a git repo:
 
 ```bash
-python CI_CodeComplete/build.py -c ../www
+git submodule add https://github.com/mattbryson/Codeigniter_Code_Complete.git codecomplete
+````
+2) Then run the script:
+
+```bash
+python codecomplete/build.py -c ../www
 ```
-Where CI_CodeComplete is the CI_CodeComplete repo and -c is the path to you codeigniter site relative to the CI_CodeComplete directory.
-
-If you want to add this to an existing repo, consider using a git-submodule.
+Where `codecomplete` is the CI_CodeComplete repo and `-c` is the path to you codeigniter site relative to the `codecomplete` directory.
 
 
-2) Next add the directory to you Eclipse PHP Build path.
+3) Next add the directory to you Eclipse PHP Build path.
 
 * File > Properties > PHP Buildpath
 * Click on the 'External Directories' tab
-* Click the 'add' button to the right and browse to the CI_CodeComplete directory.
+* Click the 'add' button to the right and browse to the `codecomplete` directory.
 
 
 Now you will have code-complete in you custom Codeigniter classes.
 
 #Workflow#
-Add a copy of CI_CodeComplete into each codeigniter project you work on, at the same level as your www directory.
-Each time you add a new reference a new model, library or helper in one of you classes you must re build the CI_CodeComplete files.
-It only takes a second to run, and saves you a lot of time in the long run.
+Add a copy of `codecomplete` into each codeigniter project you work on, at the same level as your `www` directory.
+Each time you add a new reference a new model, library or helper in one of you classes you must re build the `codecomplete` files.
+It only takes a second to run, and saves you a lot of time in the long run. You will need to save the class to get Eclipse to run check the class paths.
 
 #Disclaimer#
 **This script has been tested however, USE AT YOUR OWN RISK.**
