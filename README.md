@@ -53,7 +53,7 @@ If you want to add this to an existing repo, consider using a git-submodule.
 Now you will have code-complete in you custom Codeigniter classes.
 
 #Workflow#
-Add a copy of CI_CodeComplete into each codeigniter project you work on, at the same level as you www directory.
+Add a copy of CI_CodeComplete into each codeigniter project you work on, at the same level as your www directory.
 Each time you add a new reference a new model, library or helper in one of you classes you must re build the CI_CodeComplete files.
 It only takes a second to run, and saves you a lot of time in the long run.
 
