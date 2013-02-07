@@ -12,7 +12,7 @@ The script makes the assumption that your class properties follow the standard C
 $this->load->model('my_model') ;
 ```
 
-THis will create a property called *$my_model* of type *My_model* for the file `models/my_model.php`
+This will create a property called *$my_model* of type *My_model* for the file `models/my_model.php`
 
 The script will generate auto complete files for all your models, controllers, libraries, helpers, hooks and custom core files. 
 
@@ -22,7 +22,7 @@ It has been tested with the following strucutres
 
 ```php
 $this->load->model('my_model') ;
-$this->load->model('my_model') ;
+$this->load->model('my_package/my_model') ;
 $this -> load -> model ( 'my_model' ) ;
 $this->load->model(array('my_model', 'my_other_model') ) ;
 $this->load->model(
@@ -30,7 +30,7 @@ array(
 'my_model', 
 'my_other_model'
 ) ) ;
-$this->load->model('my_package/my_model') ;
+
 
 $this->CI =& get_instance();
 $this->CI->load->model('my_package/my_model') ;
@@ -74,7 +74,10 @@ Now you will have code-complete in you custom Codeigniter classes.
 #Workflow#
 Add a copy of `codecomplete` into each codeigniter project you work on, at the same level as your `www` directory.
 Each time you add a new reference to a model, library or helper in one of you classes you must re build the `codecomplete` files.
-It only takes a second to run, and saves you a lot of time in the long run. You will need to save the class to get Eclipse to re check the class paths.
+It only takes a second to run, and saves you a lot of time in the long run. 
+
+You will need to save the class to get Eclipse to re check the class paths. Eclipse can hang on to the old cached code complete, so sometimes you need to 
+remove and re add the codecomplete path. Ive yet to work out how to force Eclipse to reload the codecomplete definitions.
 
 #Disclaimer#
 **This script has been tested however, USE AT YOUR OWN RISK.**
