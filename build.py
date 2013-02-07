@@ -45,8 +45,9 @@ CLASS_CLOSE_BRACKET = '}'
 PHP_TAG = '<?php'
 CLASS_PATTERN = "^(?!.*[\*,/,',\"]).*class .*$"
 
-LOAD_PATTERN = r"\$([^\s\\]*?)(?:->[\s]*?load[\s]*?->[\s]*?(?:model|library))(.*?\))"
+LOAD_PATTERN = r"^[\s]*?[^//,*][\s]*?\$([^\s\\]*?)(?:->[\s]*?load[\s]*?->[\s]*?(?:model|library))(.*?\))"
 # r                             python escape for regex
+# ^[\s]*?[^//,*][\s]*?          start of line, allow 0 or more spaces then NO comment //, or * then 0 or more spaces
 # \$                            find string starting with dollar
 # (                             start a capturing match
 # [^\s\\]                       That has any character excluding white space
@@ -93,7 +94,7 @@ var ${var};
 # If this pattern exists in a class (hook / library)
 # Then write out match(1) as type CI_Controller in the current class
 # and add any loads made via match(1) to it.
-CI_INSTANCE_PATTERN = r'\$(.*?)[\s]*?\=\&[\s]*?get_instance'
+CI_INSTANCE_PATTERN = r'^[\s]*?[^//,*][\s]*?\$(.*?)[\s]*?\=\&[\s]*?get_instance'
 
 files_created = 0
 
