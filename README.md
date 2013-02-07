@@ -12,13 +12,13 @@ The script makes the assumption that your class properties follow the standard C
 $this->load->model('my_model') ;
 ```
 
-THis will create a property called *$my_model* of type *My_model*
+THis will create a property called *$my_model* of type *My_model* for the file `models/my_model.php`
 
-The script will generate auto complete files for all your models, controllers,  libraries,  helpers and custom core files. 
+The script will generate auto complete files for all your models, controllers, libraries, helpers, hooks and custom core files. 
 
 It supports HMVC set ups as well,  so any classes under a *modules* package will also be detected. 
 
-It has been tested with the following layouts
+It has been tested with the following strucutres
 
 ```php
 $this->load->model('my_model') ;
@@ -31,7 +31,18 @@ array(
 'my_other_model'
 ) ) ;
 $this->load->model('my_package/my_model') ;
+
+$this->CI =& get_instance();
+$this->CI->load->model('my_package/my_model') ;
+
+$this->any_var_name =& get_instance();
+$this->any_var_name->load->model('my_package/my_model') ;
+
+$CI =& get_instance();
+$CI->load->model('my_package/my_model') ;
 ```
+
+
 ##Installation##
 This assumes you have a git repo for your codeigniter project that contains a `www` directory.  
 
