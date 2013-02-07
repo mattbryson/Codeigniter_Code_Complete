@@ -12,7 +12,7 @@ The script makes the assumption that your class properties follow the standard C
 $this->load->model('my_model') ;
 ```
 
-THis will create a property called *$my_model* of type *My_model* for the file `models/my_model.php`
+This will create a property called *$my_model* of type *My_model* for the file `models/my_model.php`
 
 The script will generate auto complete files for all your models, controllers, libraries, helpers, hooks and custom core files. 
 
