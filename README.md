@@ -22,7 +22,7 @@ It has been tested with the following strucutres
 
 ```php
 $this->load->model('my_model') ;
-$this->load->model('my_model') ;
+$this->load->model('my_package/my_model') ;
 $this -> load -> model ( 'my_model' ) ;
 $this->load->model(array('my_model', 'my_other_model') ) ;
 $this->load->model(
@@ -30,7 +30,7 @@ array(
 'my_model', 
 'my_other_model'
 ) ) ;
-$this->load->model('my_package/my_model') ;
+
 
 $this->CI =& get_instance();
 $this->CI->load->model('my_package/my_model') ;
